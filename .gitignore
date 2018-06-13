@@ -1,0 +1,7 @@
+
+# Ignore emacs backups and OSX stuff
+*~
+\#*
+.\#*
+.DS_Store
+
