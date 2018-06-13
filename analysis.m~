@@ -1,4 +1,6 @@
-(*readVTK:returns a named data block from a vtk file as a mathematica \
+(*Mikes read VTK code - reads vtk files into mathematica arrays*) 
+
+(*readVTK:returns a named data block from a vtk file as a mathematica	\
 array.stores `time',`origin',and `spacing' as global \
 variables.example \
 usage:ListContourPlot[readVTK["merged/out.0020.vtk","pressure",\
@@ -109,6 +111,8 @@ entrainment[file_] := Module[{hst, vcold, vhot, time},
   Transpose[{time, Quiet[vcold/vhot]}]
   ]
 
+
+  (*get mass of cold  gas from history file*)  
 coldmass[file_] := Module[{hst, vcold, vhot, time},
   hst = importhist[file];
   time = hst[[All, 1]];
@@ -120,4 +124,20 @@ coldmassbig[file_] := Module[{hst, vcold, vhot, time},
   hst = importhist[file];
   time = hst[[All, 1]];
   Transpose[{time, 4*hst[[All, 13]]}]
+  ]
+
+
+     (*read vcold/vhot from history file*)
+
+     
+entrainment[file_] := Module[{hst, vcold, vhot, time},
+  hst = importhist[file];
+  
+  time = hst[[All, 1]];
+  vcold = Quiet[hst[[All, 14]]/hst[[All, 13]]];
+  vhot = Quiet[hst[[All, 12]]/
+    hst[[All, 
+     11]]]; (*Quit errors that come from dividing by zero...*)
+  
+  Transpose[{time, Quiet[vcold/vhot]}]
   ]

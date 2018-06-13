@@ -98,32 +98,12 @@ importhist[fname_] := Module[{data},
     VectorQ[#, NumberQ] &]]
 
 
-entrainment[file_] := Module[{hst, vcold, vhot, time},
-  hst = importhist[file];
-  
-  time = hst[[All, 1]];
-  vcold = Quiet[hst[[All, 14]]/hst[[All, 13]]];
-  vhot = Quiet[hst[[All, 12]]/
-    hst[[All, 
-     11]]]; (*hack to replace 0.0 in denominator with 10^-10. 
-  Just so that I'm not dividing by 0.0*)
-  
-  Transpose[{time, Quiet[vcold/vhot]}]
-  ]
-
 
   (*get mass of cold  gas from history file*)  
 coldmass[file_] := Module[{hst, vcold, vhot, time},
   hst = importhist[file];
   time = hst[[All, 1]];
   Transpose[{time, hst[[All, 13]]}]
-  ]
-
-
-coldmassbig[file_] := Module[{hst, vcold, vhot, time},
-  hst = importhist[file];
-  time = hst[[All, 1]];
-  Transpose[{time, 4*hst[[All, 13]]}]
   ]
 
 
